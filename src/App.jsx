@@ -24,8 +24,8 @@ const products = productsFromServer.map((product) => {
   return result;
 });
 
-function filterList(selectedUser, list, inputValue) {
-  const copy = [...list];
+function filterList(selectedUser, listt) {
+  const copy = [...listt];
 
   if (selectedUser === '') {
     return copy;
@@ -34,11 +34,24 @@ function filterList(selectedUser, list, inputValue) {
   return copy.filter(product => selectedUser === product.category.ownerId);
 }
 
+function list(lis, inputValue) {
+  const copy = [...lis];
+
+  if (inputValue === '') {
+    return copy;
+  }
+
+  return copy.filter(text => (
+    text.name.toLowerCase().includes(inputValue.toLowerCase())
+  ));
+}
+
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [inputValue, setInputValue] = useState('');
 
   const someText = filterList(selectedUser, products, inputValue);
+  const arr = list(someText, inputValue);
 
   return (
     <div className="section">
@@ -215,7 +228,7 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {someText.map(product => (
+              {arr.map(product => (
                 <tr data-cy="Product" key={product.id}>
                   <td className="has-text-weight-bold" data-cy="ProductId">
                     {product.id}
